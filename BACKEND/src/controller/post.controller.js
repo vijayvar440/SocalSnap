@@ -42,15 +42,17 @@ async function creatPost(req, res) {
     }
 }
 
+
+
 async function getPost(req,res) {
     try{
         const userId = req.user.id;
-        const posts = await postModel.findOne({
+        const posts = await postModel.find({
             uploadedBy:userId
         });
         return res.status(200).json({
-            massage:"My Posts Fetched Successfulliy",
-            totatPosts:posts.lenght,
+            message:"My Posts Fetched Successfulliy",
+            totalPosts:posts.length,
             posts
         });
     }catch(err){
@@ -61,8 +63,26 @@ async function getPost(req,res) {
     }
 
 }
+async function getAllPost(req,res) {
+    try{
+        const post = await postModel.find();
+
+        return res.status(200).json({
+            message:"All Posts Fetched Successfulliy",
+            totalPosts:post.length,
+            posts
+        });
+    }
+    catch(err){
+        return res.status(500).json({
+            massage:err.massage
+        })
+    }
+    
+}
 
 module.exports = {
     creatPost,
-    getPost
+    getPost,
+    getAllPost
 };

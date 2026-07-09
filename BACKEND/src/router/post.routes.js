@@ -6,6 +6,7 @@ const authMiddleware = require("../middlewares/auth.Middlewares");
 const upload = require("../middlewares/upload.middlewares");
 const userContoller = require("../controller/user.controller")
 
+
 router.post(
     "/createPost",
     authMiddleware,
@@ -22,6 +23,10 @@ router.get(
     "/my-posts",
     authMiddleware,
     postController.getPost
+);
+router.get(
+    "/all-posts",
+    postController.getAllPost
 );
 
 router.get(
