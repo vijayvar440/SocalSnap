@@ -29,6 +29,7 @@ router.get(
     postController.getAllPost
 );
 
+
 router.get(
     "/profile",
     authMiddleware,

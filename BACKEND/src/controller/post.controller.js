@@ -63,22 +63,25 @@ async function getPost(req,res) {
     }
 
 }
-async function getAllPost(req,res) {
-    try{
-        const post = await postModel.find();
+async function getAllPost(req, res) {
+    try {
+
+        const posts = await postModel.find();
 
         return res.status(200).json({
-            message:"All Posts Fetched Successfulliy",
-            totalPosts:post.length,
+            message: "All Posts Fetched Successfully",
+            totalPosts: posts.length,
             posts
         });
-    }
-    catch(err){
+
+    } catch (err) {
+
+        console.log(err);
+
         return res.status(500).json({
-            massage:err.massage
-        })
+            message: err.message
+        });
     }
-    
 }
 
 module.exports = {
