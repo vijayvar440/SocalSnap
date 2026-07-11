@@ -16,6 +16,7 @@ function Navbar() {
             <h2>SocialSnap</h2>
 
             <Link to="/">Home</Link>
+            
             {token ? (
                 <button onClick={handleLogout}>Logout</button>
             ):(

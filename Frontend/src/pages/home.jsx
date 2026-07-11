@@ -10,11 +10,10 @@ function Home() {
                 "http://localhost:3000/api/Post/all-posts"
             );
 
-            setPosts(response.data.posts)
-
+            setPosts(response.data.posts);
 
         } catch (err) {
-            console.log(err);
+            console.log(err.response?.data || err.message);
         }
     };
 
@@ -22,26 +21,56 @@ function Home() {
         fetchPosts();
     }, []);
 
-   return (
-    <div>
-        <h1>Home Page</h1>
+    return (
+        <div>
+            <h1>Home Page</h1>
 
-        {
-            posts.map((post) => (
-                <div key={post._id}>
+            {posts.map((post) => (
+                <div
+                    key={post._id}
+                    style={{
+                        border: "1px solid gray",
+                        padding: "20px",
+                        marginBottom: "20px",
+                        width: "350px"
+                    }}
+                >
                     <h2>{post.title}</h2>
+
                     <p>{post.description}</p>
 
-                    <img
-                        src={post.image}
-                        alt={post.title}
-                        width="300"
-                    />
+                    {post.image && (
+                        <img
+                            src={post.image}
+                            alt={post.title}
+                            width="300"
+                        />
+                    )}
+
+                    <br />
+                    <br />
+
+                    {post.video && (
+                        <video
+                            src={post.video}
+                            width="300"
+                            controls
+                        />
+                    )}
+
+                    <br />
+                    <br />
+
+                    {post.audio && (
+                        <audio
+                            src={post.audio}
+                            controls
+                        />
+                    )}
                 </div>
-            ))
-        }
-    </div>
-);
+            ))}
+        </div>
+    );
 }
 
 export default Home;
