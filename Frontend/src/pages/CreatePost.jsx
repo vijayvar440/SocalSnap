@@ -7,9 +7,8 @@ function CreatePost() {
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [image, setImage] = useState(null);
-    const [video, setVideo] = useState(null);
-    const [audio, setAudio] = useState(null);
+    const [mediaType, setMediaType] = useState("image");
+    const [media, setMedia] = useState(null);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -18,9 +17,8 @@ function CreatePost() {
 
         formData.append("title", title);
         formData.append("description", description);
-        formData.append("image", image);
-        formData.append("video", video);
-        formData.append("audio", audio);
+        formData.append("mediaType", mediaType);
+        formData.append("media", media);
 
         try {
             const response = await axios.post(
@@ -51,7 +49,7 @@ function CreatePost() {
 
                 <input
                     type="text"
-                    placeholder="Title"
+                    placeholder="Enter Title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                 />
@@ -59,33 +57,41 @@ function CreatePost() {
                 <br /><br />
 
                 <textarea
-                    placeholder="Description"
+                    placeholder="Enter Description"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                 />
 
                 <br /><br />
 
-                <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => setImage(e.target.files[0])}
-                />
+                <label>Select Media Type</label>
+
+                <br /><br />
+
+                <select
+                    value={mediaType}
+                    onChange={(e) => {
+                        setMediaType(e.target.value);
+                        setMedia(null);
+                    }}
+                >
+                    <option value="image">Image</option>
+                    <option value="video">Video</option>
+                    <option value="audio">Audio</option>
+                </select>
 
                 <br /><br />
 
                 <input
                     type="file"
-                    accept="video/*"
-                    onChange={(e) => setVideo(e.target.files[0])}
-                />
-
-                <br /><br />
-
-                <input
-                    type="file"
-                    accept="audio/*"
-                    onChange={(e) => setAudio(e.target.files[0])}
+                    accept={
+                        mediaType === "image"
+                            ? "image/*"
+                            : mediaType === "video"
+                            ? "video/*"
+                            : "audio/*"
+                    }
+                    onChange={(e) => setMedia(e.target.files[0])}
                 />
 
                 <br /><br />

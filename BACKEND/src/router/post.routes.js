@@ -6,15 +6,10 @@ const authMiddleware = require("../middlewares/auth.Middlewares");
 const upload = require("../middlewares/upload.middlewares");
 const userContoller = require("../controller/user.controller")
 
-
 router.post(
     "/createPost",
     authMiddleware,
-    upload.fields([
-        { name: "image", maxCount: 1 },
-        { name: "video", maxCount: 1 },
-        { name: "audio", maxCount: 1 }
-    ]),
+    upload.single("media"),
     postController.creatPost
 );
 

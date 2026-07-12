@@ -10,6 +10,8 @@ function Home() {
                 "http://localhost:3000/api/Post/all-posts"
             );
 
+            console.log(response.data.posts);
+
             setPosts(response.data.posts);
 
         } catch (err) {
@@ -29,43 +31,40 @@ function Home() {
                 <div
                     key={post._id}
                     style={{
-                        border: "1px solid gray",
+                        border: "1px solid #ccc",
                         padding: "20px",
                         marginBottom: "20px",
-                        width: "350px"
+                        borderRadius: "10px",
                     }}
                 >
                     <h2>{post.title}</h2>
 
                     <p>{post.description}</p>
 
-                    {post.image && (
+                    {/* Debug */}
+                    <p><b>Media Type:</b> {post.mediaType}</p>
+                    <p><b>Media URL:</b> {post.media}</p>
+
+                    {post.mediaType === "image" && post.media && (
                         <img
-                            src={post.image}
+                            src={post.media}
                             alt={post.title}
                             width="300"
                         />
                     )}
 
-                    <br />
-                    <br />
-
-                    {post.video && (
-                        <video
-                            src={post.video}
-                            width="300"
-                            controls
-                        />
+                    {post.mediaType === "video" && post.media && (
+                        <video width="300" controls>
+                            <source src={post.media} type="video/mp4" />
+                            Your browser does not support video.
+                        </video>
                     )}
 
-                    <br />
-                    <br />
-
-                    {post.audio && (
-                        <audio
-                            src={post.audio}
-                            controls
-                        />
+                    {post.mediaType === "audio" && post.media && (
+                        <audio controls>
+                            <source src={post.media} type="audio/mpeg" />
+                            Your browser does not support audio.
+                        </audio>
                     )}
                 </div>
             ))}

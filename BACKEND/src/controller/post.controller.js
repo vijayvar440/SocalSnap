@@ -3,29 +3,40 @@ const postModel = require("../model/post.model");
 async function creatPost(req, res) {
     try {
 
-        const { title, description } = req.body;
+        const { title, description, mediaType } = req.body;
         const userId = req.user.id;
 
-        const image = req.files.image
-            ? req.files.image[0].path
-            : "";
+        console.log("===== BODY =====");
+        console.log(req.body);
 
-        const video = req.files.video
-            ? req.files.video[0].path
-            : "";
+        console.log("===== FILE =====");
+        console.log(req.file);
 
-        const audio = req.files.audio
-            ? req.files.audio[0].path
-            : "";
+        let media = "";
+
+        if (req.file) {
+            media = req.file.path;
+        }
+
+        console.log("===== DATA TO SAVE =====");
+        console.log({
+            title,
+            description,
+            media,
+            mediaType,
+            uploadedBy: userId
+        });
 
         const post = await postModel.create({
             title,
             description,
-            image,
-            video,
-            audio,
+            media,
+            mediaType,
             uploadedBy: userId
         });
+
+        console.log("===== SAVED POST =====");
+        console.log(post);
 
         return res.status(201).json({
             message: "Post Created Successfully",
@@ -33,7 +44,6 @@ async function creatPost(req, res) {
         });
 
     } catch (err) {
-
         console.log(err);
 
         return res.status(500).json({
@@ -42,31 +52,31 @@ async function creatPost(req, res) {
     }
 }
 
-
-
-async function getPost(req,res) {
-    try{
+async function getPost(req, res) {
+    try {
         const userId = req.user.id;
+
         const posts = await postModel.find({
-            uploadedBy:userId
+            uploadedBy: userId
         });
+
         return res.status(200).json({
-            message:"My Posts Fetched Successfulliy",
-            totalPosts:posts.length,
+            message: "My Posts Fetched Successfully",
+            totalPosts: posts.length,
             posts
         });
-    }catch(err){
+
+    } catch (err) {
         return res.status(500).json({
-            massage:"Internal server Error",
-            err:err.massage
+            message: err.message
         });
     }
-
 }
+
 async function getAllPost(req, res) {
     try {
 
-        const posts = await postModel.find();
+        const posts = await postModel.find().sort({ createdAt: -1 });
 
         return res.status(200).json({
             message: "All Posts Fetched Successfully",
@@ -84,8 +94,42 @@ async function getAllPost(req, res) {
     }
 }
 
+async function deletPost(req, res) {
+    try {
+
+        const { id } = req.params;
+        const userId = req.user.id;
+
+        const post = await postModel.findById(id);
+
+        if (!post) {
+            return res.status(404).json({
+                message: "Post Not Found"
+            });
+        }
+
+        if (post.uploadedBy.toString() !== userId) {
+            return res.status(403).json({
+                message: "Unauthorized"
+            });
+        }
+
+        await postModel.findByIdAndDelete(id);
+
+        return res.status(200).json({
+            message: "Post Deleted Successfully"
+        });
+
+    } catch (err) {
+        return res.status(500).json({
+            message: err.message
+        });
+    }
+}
+
 module.exports = {
     creatPost,
     getPost,
-    getAllPost
+    getAllPost,
+    deletPost
 };

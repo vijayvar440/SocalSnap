@@ -11,16 +11,15 @@ const postSchema = new mongoose.Schema({
         type: String
     },
 
-    image: {
-        type: String
+    media: {
+        type: String,
+        required: true
     },
 
-    video: {
-        type: String
-    },
-
-    audio: {
-        type: String
+    mediaType: {
+        type: String,
+        enum: ["image", "video", "audio"],
+        required: true
     },
 
     uploadedBy: {
