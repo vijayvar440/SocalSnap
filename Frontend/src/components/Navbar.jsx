@@ -1,33 +1,50 @@
-import { Link , useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import "./Navbar.css";
 
 function Navbar() {
-
 
     const navigate = useNavigate();
     const token = localStorage.getItem("token");
 
-    const handleLogout = () =>{
+    const handleLogout = () => {
         localStorage.removeItem("token");
-        navigate("/login")
-       
+        navigate("/login");
     };
+
     return (
-        <nav>
-            <h2>SocialSnap</h2>
 
-            <Link to="/">Home</Link>
-            
-            {token ? (
-                <button onClick={handleLogout}>Logout</button>
-            ):(
-                 <Link to="/login">Login</Link>
+        <nav className="navbar">
 
-            )}
-           
-            <Link to="/register">Register</Link>
-            <Link to="/profile">Profile</Link>
-            <Link to="/create-post">Create Post</Link>
+            <div className="logo">
+                📸 SocialSnap
+            </div>
+
+            <div className="nav-links">
+
+                <Link to="/">Home</Link>
+
+                {token && (
+                    <>
+                        <Link to="/create-post">Create Post</Link>
+                        <Link to="/profile">Profile</Link>
+                    </>
+                )}
+
+                {!token ? (
+                    <>
+                        <Link to="/login">Login</Link>
+                        <Link to="/register">Register</Link>
+                    </>
+                ) : (
+                    <button className="logout-btn" onClick={handleLogout}>
+                        Logout
+                    </button>
+                )}
+
+            </div>
+
         </nav>
+
     );
 }
 

@@ -94,38 +94,7 @@ async function getAllPost(req, res) {
     }
 }
 
-async function deletPost(req, res) {
-    try {
 
-        const { id } = req.params;
-        const userId = req.user.id;
-
-        const post = await postModel.findById(id);
-
-        if (!post) {
-            return res.status(404).json({
-                message: "Post Not Found"
-            });
-        }
-
-        if (post.uploadedBy.toString() !== userId) {
-            return res.status(403).json({
-                message: "Unauthorized"
-            });
-        }
-
-        await postModel.findByIdAndDelete(id);
-
-        return res.status(200).json({
-            message: "Post Deleted Successfully"
-        });
-
-    } catch (err) {
-        return res.status(500).json({
-            message: err.message
-        });
-    }
-}
 
 async function likePost(req, res) {
 
@@ -214,13 +183,50 @@ async function deletPost(req, res) {
         });
     }
 }
+async function addComment(req, res) {
+    try {
+
+        const postId = req.params.id;
+        const userId = req.user.id;
+        const { text } = req.body;
+
+        const post = await postModel.findById(postId);
+
+        if (!post) {
+            return res.status(404).json({
+                message: "Post Not Found"
+            });
+        }
+
+        post.comments.push({
+            user: userId,
+            text: text
+        });
+
+        await post.save();
+
+        return res.status(200).json({
+            message: "Comment Added Successfully",
+            comments: post.comments
+        });
+
+    } catch (err) {
+
+        console.log(err);
+
+        return res.status(500).json({
+            message: err.message
+        });
+    }
+}
 
 module.exports = {
     creatPost,
     getPost,
     getAllPost,
-    deletPost,
+    
     likePost,
-    deletPost
-
+    deletPost,
+    
+    addComment
 };

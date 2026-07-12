@@ -1,6 +1,8 @@
 import { useState,useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "./Login.css";
+import { Link } from "react-router-dom";
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -42,40 +44,43 @@ function Login() {
     };
 
     return (
-        <div>
+    <div className="login-container">
+
+        <div className="login-card">
+
             <h1>Login</h1>
 
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Email</label>
-                    <br />
-                    <input
-                        type="email"
-                        placeholder="Enter Email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                </div>
 
-                <br />
+                <input
+                    type="email"
+                    placeholder="Enter Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
 
-                <div>
-                    <label>Password</label>
-                    <br />
-                    <input
-                        type="password"
-                        placeholder="Enter Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </div>
+                <input
+                    type="password"
+                    placeholder="Enter Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
 
-                <br />
+                <button className="login-btn" type="submit">
+                    Login
+                </button>
 
-                <button type="submit">Login</button>
             </form>
+
+            <div className="register-link">
+                Don't have an account?{" "}
+                <Link to="/register">Register</Link>
+            </div>
+
         </div>
-    );
+
+    </div>
+);
 }
 
 export default Login;
