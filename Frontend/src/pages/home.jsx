@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 function Home() {
+    console.log(localStorage.getItem("token"));
     const [posts, setPosts] = useState([]);
 
     const fetchPosts = async () => {
@@ -41,9 +42,7 @@ function Home() {
 
                     <p>{post.description}</p>
 
-                    {/* Debug */}
-                    <p><b>Media Type:</b> {post.mediaType}</p>
-                    <p><b>Media URL:</b> {post.media}</p>
+                   
 
                     {post.mediaType === "image" && post.media && (
                         <img

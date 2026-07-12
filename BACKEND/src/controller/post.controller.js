@@ -127,9 +127,63 @@ async function deletPost(req, res) {
     }
 }
 
+async function likePost(req, res) {
+
+    try {
+
+        const userId = req.user.id;
+        const postId = req.params.id;
+
+        const post = await postModel.findById(postId);
+
+        if (!post) {
+            return res.status(404).json({
+                message: "Post not found"
+            });
+        }
+
+        const alreadyLiked = post.likes.includes(userId);
+
+        if (alreadyLiked) {
+
+            post.likes = post.likes.filter(
+                (id) => id.toString() !== userId
+            );
+
+            await post.save();
+
+            return res.status(200).json({
+                message: "Post Unliked",
+                likes: post.likes.length
+            });
+
+        } else {
+
+            post.likes.push(userId);
+
+            await post.save();
+
+            return res.status(200).json({
+                message: "Post Liked",
+                likes: post.likes.length
+            });
+
+        }
+
+    } catch (err) {
+
+        console.log(err);
+
+        return res.status(500).json({
+            message: err.message
+        });
+    }
+}
+
 module.exports = {
     creatPost,
     getPost,
     getAllPost,
-    deletPost
+    deletPost,
+    likePost
 };

@@ -5,6 +5,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import CreatePost from "./pages/CreatePost";
+import EditProfile from "./pages/EditProfile";
+
 import Navbar from "./components/Navbar";
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -14,23 +16,42 @@ function App() {
             <Navbar />
 
             <Routes>
+
+                {/* Public Routes */}
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
 
-                <Route path="/profile" 
-                element={
-                    <ProtectedRoute>
-                        <Profile/>
-                    </ProtectedRoute>
-                } />
+                {/* Protected Profile */}
+                <Route
+                    path="/profile"
+                    element={
+                        <ProtectedRoute>
+                            <Profile />
+                        </ProtectedRoute>
+                    }
+                />
 
-                <Route path="/create-post"
-                 element={
-                 <ProtectedRoute>
-                    <CreatePost/>
-                 </ProtectedRoute>
-                 } />
+                {/* Protected Create Post */}
+                <Route
+                    path="/create-post"
+                    element={
+                        <ProtectedRoute>
+                            <CreatePost />
+                        </ProtectedRoute>
+                    }
+                />
+
+                {/* Protected Edit Profile */}
+                <Route
+                    path="/edit-profile"
+                    element={
+                        <ProtectedRoute>
+                            <EditProfile />
+                        </ProtectedRoute>
+                    }
+                />
+
             </Routes>
         </>
     );

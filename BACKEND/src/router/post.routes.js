@@ -36,5 +36,10 @@ router.put(
     authMiddleware,
     upload.single("profileImage"),
     userContoller.updateProfile
+)
+router.put(
+    "/like/:id",
+    authMiddleware,
+    postController.likePost
 );
 module.exports = router;
