@@ -65,22 +65,28 @@ async function registerUser(req, res) {
     }
 }
 
-async function logingUser(req,res) {
-        const { username, email, password, role = "user" } = req.body;
+async function logingUser(req, res) {
+    try {
 
-        const user = await userModel.findOne({
-            $or:[{username},
-                {email}
-            ]
-        });
+        const { email, password } = req.body;
 
-        if(!user){
+        const user = await userModel.findOne({ email });
+
+        if (!user) {
             return res.status(401).json({
-                massage:"Invalid credential"
+                message: "Invalid Email"
             });
         }
 
-         const token = jwt.sign(
+        const isMatch = await bcrypt.compare(password, user.password);
+
+        if (!isMatch) {
+            return res.status(401).json({
+                message: "Invalid Password"
+            });
+        }
+
+        const token = jwt.sign(
             {
                 id: user._id,
                 role: user.role
@@ -88,29 +94,32 @@ async function logingUser(req,res) {
             process.env.JWT_SECRET,
             {
                 expiresIn: "7d"
-            },
-            
+            }
         );
-    
 
-        res.cookie("token",token,{
-            httpOnly:true
+        res.cookie("token", token, {
+            httpOnly: true
         });
 
         return res.status(200).json({
-            massage:"User login Succesfulliy",
+            message: "User Login Successfully",
             token,
-            user:{
-                id:user._id,
-                username:user.username,
-                email:user.email
+            user: {
+                id: user._id,
+                username: user.username,
+                email: user.email,
+                role: user.role
             }
-        
-        })
+        });
 
+    } catch (err) {
 
+        console.log(err);
 
-    
+        return res.status(500).json({
+            message: err.message
+        });
+    }
 }
 
 async function logOutUser(req, res) {

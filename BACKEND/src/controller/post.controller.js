@@ -179,11 +179,48 @@ async function likePost(req, res) {
         });
     }
 }
+async function deletPost(req, res) {
+    try {
+
+        const postId = req.params.id;
+        const userId = req.user.id;
+
+        const post = await postModel.findById(postId);
+
+        if (!post) {
+            return res.status(404).json({
+                message: "Post Not Found"
+            });
+        }
+
+        if (post.uploadedBy.toString() !== userId) {
+            return res.status(403).json({
+                message: "You can delete only your own post"
+            });
+        }
+
+        await postModel.findByIdAndDelete(postId);
+
+        return res.status(200).json({
+            message: "Post Deleted Successfully"
+        });
+
+    } catch (err) {
+
+        console.log(err);
+
+        return res.status(500).json({
+            message: err.message
+        });
+    }
+}
 
 module.exports = {
     creatPost,
     getPost,
     getAllPost,
     deletPost,
-    likePost
+    likePost,
+    deletPost
+
 };

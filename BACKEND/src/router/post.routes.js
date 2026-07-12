@@ -41,5 +41,15 @@ router.put(
     "/like/:id",
     authMiddleware,
     postController.likePost
-);
+)
+router.post(
+    "/comment/:id",
+    authMiddleware,
+    postController.addComment
+)
+router.delete(
+    "/delete/:id",
+    authMiddleware,
+    postController.deletPost
+);;
 module.exports = router;
