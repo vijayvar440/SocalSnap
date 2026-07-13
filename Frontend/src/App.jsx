@@ -9,6 +9,7 @@ import EditProfile from "./pages/EditProfile";
 
 import Navbar from "./components/Navbar";
 import ProtectedRoute from "./ProtectedRoute";
+import EditPost from "./pages/EditPost";
 
 function App() {
     return (
@@ -40,6 +41,14 @@ function App() {
                             <CreatePost />
                         </ProtectedRoute>
                     }
+                />
+                <Route
+                    path="/edit-post/:id"
+                        element={
+                      <ProtectedRoute>
+                      <EditPost />
+                     </ProtectedRoute>
+                   }
                 />
 
                 {/* Protected Edit Profile */}

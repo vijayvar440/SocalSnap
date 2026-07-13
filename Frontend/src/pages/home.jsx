@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Home.css";
 
@@ -6,6 +7,8 @@ function Home() {
 
     const [posts, setPosts] = useState([]);
     const [comment, setComment] = useState("");
+    const navigate = useNavigate();
+    const userId = localStorage.getItem("userId");
 
     const fetchPosts = async () => {
         try {
@@ -96,7 +99,7 @@ function Home() {
     return (
     <div className="home-container">
 
-        <h1 className="home-title">SocialSnap Feed</h1>
+
 
         <div className="feed">
 
@@ -148,12 +151,23 @@ function Home() {
                             ❤️ Like
                         </button>
 
-                        <button
-                            className="delete-btn"
-                            onClick={() => handleDelete(post._id)}
-                        >
+                           {post.uploadedBy === userId && (
+                       <>
+                            <button
+                               className="edit-btn"
+                                   onClick={() => navigate(`/edit-post/${post._id}`)}
+                           >
+                            ✏️ Edit
+                                </button>
+
+                            <button
+                           className="delete-btn"
+                        onClick={() => handleDelete(post._id)}
+                             >
                             🗑 Delete
-                        </button>
+                         </button>
+                       </>
+                      )}
 
                     </div>
 

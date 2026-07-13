@@ -34,6 +34,7 @@ function Login() {
 
             console.log(response.data);
             localStorage.setItem("token",response.data.token);
+            localStorage.setItem("userId", response.data.user.id);
             navigate("/")
             console.log(localStorage.getItem("token"));
 

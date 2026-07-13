@@ -220,13 +220,55 @@ async function addComment(req, res) {
     }
 }
 
+async function updatePost(req,res) {
+    try{
+        const postId = req.params.id;
+        const userId = req.user.id;
+
+        const {title,description} = req.body;
+
+        const post = await postModel.findById(postId);
+
+        if(!post){
+            return res.status(400).json({
+                massage:"post not found"
+            });
+        }
+        if(post.uploadedBy.toString() !== userId){
+            return res.status(403).json({
+                massage:"You can update onliy your own post"
+            });
+        }
+
+        post.title = title || post.title;
+        post.description = description || post.description;
+
+
+        if(req.file){
+            post.media = req.file.path;
+        }
+        await post.save();
+
+        return res.status(200).json({
+            massage:"Post updste successfulliy",
+            post
+        })
+    }catch(err){
+        console.log(err);
+
+        return res.status(500).json({
+            massage:err.massage
+        });
+    }
+    
+}
+
 module.exports = {
     creatPost,
     getPost,
     getAllPost,
-    
     likePost,
     deletPost,
-    
-    addComment
+    addComment,
+    updatePost
 };

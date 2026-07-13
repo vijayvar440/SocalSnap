@@ -115,3 +115,18 @@ body{
     font-weight:bold;
     margin-top:12px;
 }
+
+.edit-btn{
+    background:#0095f6;
+    color:white;
+    border:none;
+    padding:8px 15px;
+    border-radius:8px;
+    cursor:pointer;
+    margin-left:10px;
+    transition:0.3s;
+}
+
+.edit-btn:hover{
+    background:#0077cc;
+}

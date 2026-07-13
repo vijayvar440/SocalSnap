@@ -51,5 +51,5 @@ router.delete(
     "/delete/:id",
     authMiddleware,
     postController.deletPost
-);;
+);
 module.exports = router;
