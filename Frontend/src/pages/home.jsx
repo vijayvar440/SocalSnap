@@ -6,7 +6,7 @@ import "./Home.css";
 function Home() {
 
     const [posts, setPosts] = useState([]);
-    const [comment, setComment] = useState("");
+    const [comments, setComments] = useState({});
     const navigate = useNavigate();
     const userId = localStorage.getItem("userId");
 
@@ -16,7 +16,9 @@ function Home() {
             const response = await axios.get(
                 "http://localhost:3000/api/Post/all-posts"
             );
-
+            console.log("Posts:", response.data.posts);
+             console.log("Owner:", response.data.posts[0].uploadedBy);
+              console.log("My ID:", localStorage.getItem("userId"));
             setPosts(response.data.posts);
 
         } catch (err) {
@@ -69,30 +71,33 @@ function Home() {
 
     const handleComment = async (postId) => {
 
-        if (!comment.trim()) return;
+    const text = comments[postId];
 
-        try {
+    if (!text?.trim()) return;
 
-            await axios.post(
-                `http://localhost:3000/api/Post/comment/${postId}`,
-                {
-                    text: comment
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")}`
-                    }
+    try {
+
+        await axios.post(
+            `http://localhost:3000/api/Post/comment/${postId}`,
+            { text },
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
-            );
+            }
+        );
 
-            setComment("");
-            fetchPosts();
+        setComments((prev) => ({
+            ...prev,
+            [postId]: ""
+        }));
 
-        } catch (err) {
-            console.log(err.response?.data || err.message);
-        }
-    };
+        fetchPosts();
 
+    } catch (err) {
+        console.log(err.response?.data || err.message);
+    }
+};
     useEffect(() => {
         fetchPosts();
     }, []);
@@ -195,14 +200,19 @@ function Home() {
 
                     <div className="comment-area">
 
-                        <input
-                            type="text"
-                            placeholder="Write a comment..."
-                            className="comment-input"
-                            value={comment}
-                            onChange={(e) => setComment(e.target.value)}
-                        />
-
+                      <input
+                              type="text"
+                              placeholder="Write a comment..."
+                              className="comment-input"
+                              value={comments[post._id] || ""}
+                              onChange={(e) =>
+                              setComments((prev) => ({
+                                  ...prev,
+                                  [post._id]: e.target.value
+                              }))
+                               }
+                                  
+                             />
                         <button
                             className="comment-btn"
                             onClick={() => handleComment(post._id)}

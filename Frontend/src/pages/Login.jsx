@@ -32,12 +32,14 @@ function Login() {
                 }
             );
 
-            console.log(response.data);
-            localStorage.setItem("token",response.data.token);
-            localStorage.setItem("userId", response.data.user.id);
-            navigate("/")
-            console.log(localStorage.getItem("token"));
+                console.log("Login Response:", response.data);
 
+                 localStorage.setItem("token", response.data.token);
+                 localStorage.setItem("userId", response.data.user.id);
+
+                console.log("Saved UserId:", localStorage.getItem("userId"));
+
+                navigate("/");
 
         } catch (error) {
             console.log(error.response?.data || error.message);
