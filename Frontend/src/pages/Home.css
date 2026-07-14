@@ -130,3 +130,11 @@ body{
 .edit-btn:hover{
     background:#0077cc;
 }
+.show-more-btn {
+    background: none;
+    border: none;
+    color: #1877f2;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 8px 0;
+}

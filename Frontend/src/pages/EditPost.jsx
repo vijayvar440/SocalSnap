@@ -32,9 +32,9 @@ function EditPost(){
 
     };
 
-   useEffect(() => {
-    fetchPost();
-}, []);
+      useEffect(() => {
+       fetchPost();
+     }, []);
     const handleUpdate = async (e) => {
 
     e.preventDefault();

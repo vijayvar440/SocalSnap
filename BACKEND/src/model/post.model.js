@@ -22,23 +22,24 @@ const postSchema = new mongoose.Schema({
         required: true
     },
 
-    uploadedBy: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "user",
-        required: true
-    },
+   uploadedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true
+},
 
-    likes: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "user"
-        }
-    ],
-    comments: [
+likes: [
+    {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    }
+],
+
+comments: [
     {
         user: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "user"
+            ref: "User"
         },
         text: {
             type: String,
@@ -49,8 +50,7 @@ const postSchema = new mongoose.Schema({
             default: Date.now
         }
     }
-    ]
-
+]
 }, 
 {
     timestamps: true

@@ -7,6 +7,7 @@ function Home() {
 
     const [posts, setPosts] = useState([]);
     const [comments, setComments] = useState({});
+    const [showMore, setShowMore] = useState({});
     const navigate = useNavigate();
     const userId = localStorage.getItem("userId");
 
@@ -114,16 +115,19 @@ function Home() {
 
                     <div className="post-header">
 
-                        <div className="user-info">
-                            <div className="avatar">
-                                {post.title?.charAt(0).toUpperCase()}
-                            </div>
-
-                            <div>
-                                <h3>{post.title}</h3>
-                                <p>{post.description}</p>
-                            </div>
-                        </div>
+                       <div className="user-info">
+                           
+                               <div className="avatar">
+                                   {post.uploadedBy?.username?.charAt(0).toUpperCase()}
+                               </div>
+                           
+                               <div>
+                                   <h3>{post.uploadedBy?.username}</h3>
+                                   <h4>{post.title}</h4>
+                                   <p>{post.description}</p>
+                               </div>
+                           
+                           </div>
 
                     </div>
 
@@ -186,17 +190,33 @@ function Home() {
                         💬 Comments ({post.comments?.length || 0})
                     </h4>
 
-                    <div className="comments">
-
-                        {post.comments?.map((c, index) => (
-
+                   <div className="comments">
+                    
+                        {(showMore[post._id]
+                            ? post.comments
+                            : post.comments?.slice(0, 1)
+                        ).map((c, index) => (
+                    
                             <div key={index} className="comment-box">
                                 {c.text}
                             </div>
-
+                    
                         ))}
-
+                    
                     </div>
+                    {post.comments?.length > 1 && (
+                         <button
+                             className="show-more-btn"
+                             onClick={() =>
+                                 setShowMore((prev) => ({
+                                     ...prev,
+                                     [post._id]: !prev[post._id]
+                                 }))
+                             }
+                         >
+                             {showMore[post._id] ? "Show Less" : "Show More"}
+                         </button>
+                     )}
 
                     <div className="comment-area">
 

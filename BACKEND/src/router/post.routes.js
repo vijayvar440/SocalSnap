@@ -51,5 +51,11 @@ router.delete(
     "/delete/:id",
     authMiddleware,
     postController.deletPost
+)
+router.put(
+    "/update/:id",
+    authMiddleware,
+    upload.single("media"),
+    postController.updatePost
 );
 module.exports = router;

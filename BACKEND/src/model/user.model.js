@@ -1,6 +1,3 @@
-
-
-
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
@@ -8,36 +5,46 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    email: String,
-    password: {  
+
+    email: {
         type: String,
         required: true
     },
-    profileImage:{
-        type:String,
-        default:""
+
+    password: {
+        type: String,
+        required: true
     },
-    bio:{
-        type:String,
-        default:""
+
+    profileImage: {
+        type: String,
+        default: ""
     },
-    role: String,
 
-    followers:
-    [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref:"user"
+    bio: {
+        type: String,
+        default: ""
+    },
 
-    }
-    ],
+    role: {
+        type: String,
+        default: "user"
+    },
 
-    following :[
+    followers: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref:"user"
+            ref: "User"
+        }
+    ],
+
+    following: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
         }
     ]
-});
+
+}, { timestamps: true });
 
 module.exports = mongoose.model("User", userSchema);
-

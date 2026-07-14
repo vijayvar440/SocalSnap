@@ -76,7 +76,11 @@ async function getPost(req, res) {
 async function getAllPost(req, res) {
     try {
 
-        const posts = await postModel.find().sort({ createdAt: -1 });
+        
+        const posts = await postModel
+                      .find()
+                      .populate("uploadedBy", "username profileImage")
+                      .sort({ createdAt: -1 });
 
         return res.status(200).json({
             message: "All Posts Fetched Successfully",
