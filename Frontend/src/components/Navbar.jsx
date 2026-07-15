@@ -4,10 +4,12 @@ import "./Nabar.css";
 function Navbar() {
 
     const navigate = useNavigate();
-    const token = localStorage.getItem("token");
 
-    const handleLogout = () => {
+    const logout = () => {
+
         localStorage.removeItem("token");
+        localStorage.removeItem("userId");
+
         navigate("/login");
     };
 
@@ -16,30 +18,26 @@ function Navbar() {
         <nav className="navbar">
 
             <div className="logo">
-                📸 SocialSnap
+                🚀 SocialApp
             </div>
+
+            <input
+                type="text"
+                placeholder="Search..."
+                className="search-box"
+            />
 
             <div className="nav-links">
 
-                <Link to="/">Home</Link>
+                <Link to="/">🏠 Home</Link>
 
-                {token && (
-                    <>
-                        <Link to="/create-post">Create Post</Link>
-                        <Link to="/profile">Profile</Link>
-                    </>
-                )}
+                <Link to="/create-post">➕ Create</Link>
 
-                {!token ? (
-                    <>
-                        <Link to="/login">Login</Link>
-                        <Link to="/register">Register</Link>
-                    </>
-                ) : (
-                    <button className="logout-btn" onClick={handleLogout}>
-                        Logout
-                    </button>
-                )}
+                <Link to="/profile">👤 Profile</Link>
+
+                <button onClick={logout}>
+                    Logout
+                </button>
 
             </div>
 

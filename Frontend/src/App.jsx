@@ -10,11 +10,13 @@ import EditProfile from "./pages/EditProfile";
 import Navbar from "./components/Navbar";
 import ProtectedRoute from "./ProtectedRoute";
 import EditPost from "./pages/EditPost";
+import LeftSidebar from "./components/leftsidbar";
 
 function App() {
     return (
         <>
             <Navbar />
+            <LeftSidebar/>
 
             <Routes>
 

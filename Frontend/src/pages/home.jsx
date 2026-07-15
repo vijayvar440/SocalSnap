@@ -18,7 +18,9 @@ function Home() {
                 "http://localhost:3000/api/Post/all-posts"
             );
             console.log("Posts:", response.data.posts);
-             console.log("Owner:", response.data.posts[0].uploadedBy);
+             console.log("Owner Object:", response.data.posts[0].uploadedBy);
+             console.log("Username:", response.data.posts[0].uploadedBy.username);
+             console.log("Owner ID:", response.data.posts[0].uploadedBy._id);
               console.log("My ID:", localStorage.getItem("userId"));
             setPosts(response.data.posts);
 
@@ -113,24 +115,34 @@ function Home() {
 
                 <div key={post._id} className="post-card">
 
-                    <div className="post-header">
-
-                       <div className="user-info">
-                           
+                        <div className="post-header">
+                       
+                           <div className="user-info">
+                       
                                <div className="avatar">
-                                   {post.uploadedBy?.username?.charAt(0).toUpperCase()}
+                                   {post.uploadedBy?.profileImage ? (
+                                       <img
+                                           src={post.uploadedBy.profileImage}
+                                           alt="profile"
+                                           className="profile-img"
+                                       />
+                                   ) : (
+                                       post.uploadedBy?.username?.charAt(0).toUpperCase()
+                                   )}
                                </div>
-                           
+                       
                                <div>
                                    <h3>{post.uploadedBy?.username}</h3>
-                                   <h4>{post.title}</h4>
-                                   <p>{post.description}</p>
                                </div>
-                           
+                       
                            </div>
-
-                    </div>
-
+                       
+                           <h2 className="post-title">{post.title}</h2>
+                       
+                           <p>{post.description}</p>
+                       
+                       </div>
+                       
                     {post.mediaType === "image" && post.media && (
                         <img
                             src={post.media}
@@ -160,23 +172,29 @@ function Home() {
                             ❤️ Like
                         </button>
 
-                           {post.uploadedBy === userId && (
-                       <>
-                            <button
-                               className="edit-btn"
-                                   onClick={() => navigate(`/edit-post/${post._id}`)}
-                           >
-                            ✏️ Edit
-                                </button>
 
-                            <button
-                           className="delete-btn"
-                        onClick={() => handleDelete(post._id)}
-                             >
-                            🗑 Delete
-                         </button>
-                       </>
-                      )}
+
+
+                          {String(post.uploadedBy?._id) === String(userId) && (
+                            <>
+                                <button
+                                    className="edit-btn"
+                                    onClick={() => navigate(`/edit-post/${post._id}`)}
+                                >
+                                    ✏️ Edit
+                                </button>
+                        
+                                <button
+                                    className="delete-btn"
+                                    onClick={() => handleDelete(post._id)}
+                                >
+                                    🗑 Delete
+                                </button>
+                            </>
+                        )}
+
+
+
 
                     </div>
 
