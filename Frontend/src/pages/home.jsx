@@ -115,33 +115,40 @@ function Home() {
 
                 <div key={post._id} className="post-card">
 
-                        <div className="post-header">
-                       
-                           <div className="user-info">
-                       
-                               <div className="avatar">
-                                   {post.uploadedBy?.profileImage ? (
-                                       <img
-                                           src={post.uploadedBy.profileImage}
-                                           alt="profile"
-                                           className="profile-img"
-                                       />
-                                   ) : (
-                                       post.uploadedBy?.username?.charAt(0).toUpperCase()
-                                   )}
-                               </div>
-                       
-                               <div>
-                                   <h3>{post.uploadedBy?.username}</h3>
-                               </div>
-                       
-                           </div>
-                       
-                           <h2 className="post-title">{post.title}</h2>
-                       
-                           <p>{post.description}</p>
-                       
-                       </div>
+                       <div className="post-header">
+                        
+                            <div className="header-top">
+                        
+                                <div className="user-info">
+                        
+                                    <div className="avatar">
+                                        {post.uploadedBy?.profileImage ? (
+                                            <img
+                                                src={post.uploadedBy.profileImage}
+                                                alt=""
+                                                className="profile-img"
+                                            />
+                                        ) : (
+                                            post.uploadedBy?.username?.charAt(0).toUpperCase()
+                                        )}
+                                    </div>
+                        
+                                    <div className="user-details">
+                                        <h3>{post.uploadedBy?.username}</h3>
+                                        <span>{new Date(post.createdAt).toLocaleDateString()}</span>
+                                    </div>
+                        
+                                </div>
+                        
+                                <button className="more-btn">⋮</button>
+                        
+                            </div>
+                        
+                            <h2 className="post-title">{post.title}</h2>
+                        
+                            <p className="post-desc">{post.description}</p>
+                        
+                        </div>
                        
                     {post.mediaType === "image" && post.media && (
                         <img
