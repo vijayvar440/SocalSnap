@@ -1,15 +1,21 @@
 import { Link, useNavigate } from "react-router-dom";
-import "./Nabar.css";
+import {
+    House,
+    Search,
+    SquarePlus,
+    CircleUserRound,
+    LogOut
+} from "lucide-react";
+
+import "./Navbar.css";
 
 function Navbar() {
 
     const navigate = useNavigate();
 
     const logout = () => {
-
         localStorage.removeItem("token");
         localStorage.removeItem("userId");
-
         navigate("/login");
     };
 
@@ -18,24 +24,39 @@ function Navbar() {
         <nav className="navbar">
 
             <div className="logo">
-                🚀 SocialApp
+                SocialApp
             </div>
 
-            <input
-                type="text"
-                placeholder="Search..."
-                className="search-box"
-            />
+            <div className="search">
 
-            <div className="nav-links">
+                <Search size={18} />
 
-                <Link to="/">🏠 Home</Link>
+                <input
+                    type="text"
+                    placeholder="Search users..."
+                />
 
-                <Link to="/create-post">➕ Create</Link>
+            </div>
 
-                <Link to="/profile">👤 Profile</Link>
+            <div className="nav-menu">
+
+                <Link to="/">
+                    <House size={22}/>
+                    <span>Home</span>
+                </Link>
+
+                <Link to="/create-post">
+                    <SquarePlus size={22}/>
+                    <span>Create</span>
+                </Link>
+
+                <Link to="/profile">
+                    <CircleUserRound size={22}/>
+                    <span>Profile</span>
+                </Link>
 
                 <button onClick={logout}>
+                    <LogOut size={20}/>
                     Logout
                 </button>
 
@@ -44,6 +65,7 @@ function Navbar() {
         </nav>
 
     );
+
 }
 
 export default Navbar;
