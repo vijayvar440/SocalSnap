@@ -46,11 +46,11 @@ function SinglePost() {
 
                             {post.uploadedBy?.profileImage ? (
 
-                                <img
-                                    src={post.uploadedBy.profileImage}
-                                    alt="profile"
-                                    className="profile-img"
-                                />
+                          <img
+                               src={post.uploadedBy.profileImage}
+                               alt="profile"
+                               className="single-profile-img"
+                           />
 
                             ) : (
 

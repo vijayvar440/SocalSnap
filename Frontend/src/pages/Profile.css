@@ -16,12 +16,29 @@ body{
     margin-bottom:30px;
 }
 
-.profile-img{
+
+.profile-avatar{
     width:180px;
     height:180px;
+    min-width:180px;
+    min-height:180px;
+
     border-radius:50%;
-    object-fit:cover;
     border:4px solid #ddd;
+
+    object-fit:cover;
+    display:block;
+    flex-shrink:0;
+}
+@media(max-width:700px){
+
+.profile-avatar{
+    width:140px;
+    height:140px;
+    min-width:140px;
+    min-height:140px;
+}
+
 }
 
 .profile-info h2{
@@ -85,10 +102,10 @@ body{
     grid-template-columns:1fr;
 }
 
-/* .profile-img{
+.profile-img{
     width:140px;
     height:140px;
-} */
+}
 
 }
 .profile-stats{
