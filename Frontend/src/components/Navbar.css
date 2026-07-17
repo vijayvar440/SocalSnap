@@ -136,3 +136,48 @@
 
     transform:translateY(-2px);
 }
+.search{
+    position: relative;
+}
+
+.search-result{
+    position: absolute;
+    top: 45px;
+    left: 0;
+    width: 100%;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,.15);
+    overflow: hidden;
+    z-index: 999;
+}
+
+.search-user{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.search-user:hover{
+    background: #f5f5f5;
+}
+
+.search-user img{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.search-user h4{
+    margin: 0;
+    font-size: 15px;
+}
+
+.search-user p{
+    margin: 2px 0 0;
+    color: gray;
+    font-size: 12px;
+}

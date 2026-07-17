@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { useNavigate} from "react-router-dom";
 import "./SinglePost.css";
+
 
 function SinglePost() {
 
     const { id } = useParams();
 
     const [post, setPost] = useState(null);
+    const navigate = useNavigate();
 
     const fetchPost = async () => {
         try {
@@ -27,14 +30,23 @@ function SinglePost() {
         fetchPost();
     }, []);
 
+
     if (!post) {
-        return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
-    }
+    return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
+}
 
     return (
         <div className="single-post-container">
 
+
+
             <div className="single-post-card">
+                  <button
+            className="back-btn"
+            onClick={() => navigate(-1)}
+        >
+            ← Back
+        </button>
 
                 {/* Header */}
 

@@ -1,4 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
 import {
     House,
     Search,
@@ -12,12 +14,37 @@ import "./Navbar.css";
 function Navbar() {
 
     const navigate = useNavigate();
+    const [keyword, setKeyword] = useState("");
+     const [users, setUsers] = useState([]);
 
     const logout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("userId");
         navigate("/login");
     };
+    const searchUser = async (value) => {
+
+    setKeyword(value);
+
+    if (value.trim() === "") {
+        setUsers([]);
+        return;
+    }
+
+    try {
+
+        const response = await axios.get(
+            `http://localhost:3000/api/Post/search/${value}`
+        );
+
+        setUsers(response.data.users);
+
+    } catch (err) {
+
+        console.log(err);
+
+    }
+};
 
     return (
 
@@ -27,16 +54,53 @@ function Navbar() {
                 SocialApp
             </div>
 
-            <div className="search">
+            {/* Search Box */}
+<div className="search">
 
-                <Search size={18} />
+    <Search size={18} />
 
-                <input
-                    type="text"
-                    placeholder="Search users..."
-                />
+    <input
+        type="text"
+        placeholder="Search users..."
+        value={keyword}
+        onChange={(e) => searchUser(e.target.value)}
+    />
 
-            </div>
+    {/* YE DIV INPUT KE ANDAR NAHI, LEKIN SEARCH DIV KE ANDAR HOGA */}
+    {users.length > 0 && (
+
+        <div className="search-result">
+
+            {users.map((user) => (
+
+                <div
+                    key={user._id}
+                    className="search-user"
+                >
+
+                    <img
+                        src={
+                            user.profileImage ||
+                            "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                        }
+                        alt=""
+                    />
+
+                    <div>
+                        <h4>{user.username}</h4>
+                        <p>{user.bio}</p>
+                    </div>
+
+                </div>
+
+            ))}
+
+        </div>
+
+    )}
+
+</div>
+
 
             <div className="nav-menu">
 

@@ -67,8 +67,37 @@ async function updateProfile(req, res) {
         });
     }
 }
+async function searchUser(req, res) {
+    try {
 
+        const keyword = req.params.keyword;
+
+        const users = await userModel
+            .find({
+                username: {
+                    $regex: keyword,
+                    $options: "i"
+                }
+            })
+            .select("username profileImage bio");
+
+        return res.status(200).json({
+            message: "Users fetched successfully",
+            users
+        });
+
+    } catch (err) {
+
+        console.log(err);
+
+        return res.status(500).json({
+            message: err.message
+        });
+
+    }
+}
 module.exports = {
     getProfile,
-    updateProfile
+    updateProfile,
+    searchUser
 };

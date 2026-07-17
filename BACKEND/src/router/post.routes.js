@@ -64,7 +64,14 @@ router.put(
 
 router.get("/:postId",
      postController
-     .getSinglePost);
+     .getSinglePost)
+
+     router.get(
+    "/search/:keyword",
+    userContoller.searchUser
+);
+
+
 
 
 module.exports = router;
