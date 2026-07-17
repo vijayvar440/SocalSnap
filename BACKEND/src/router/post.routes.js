@@ -4,7 +4,10 @@ const router = express.Router();
 const postController = require("../controller/post.controller");
 const authMiddleware = require("../middlewares/auth.Middlewares");
 const upload = require("../middlewares/upload.middlewares");
-const userContoller = require("../controller/user.controller")
+const userContoller = require("../controller/user.controller");
+
+
+
 
 router.post(
     "/createPost",
@@ -57,5 +60,11 @@ router.put(
     authMiddleware,
     upload.single("media"),
     postController.updatePost
-);
+)
+
+router.get("/:postId",
+     postController
+     .getSinglePost);
+
+
 module.exports = router;

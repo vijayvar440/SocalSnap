@@ -2,68 +2,123 @@ const userModel = require("../model/user.model");
 
 async function followUser(req, res) {
     try {
-        // Logged in user ki ID
-        const loggedUserId = req.user.id;
 
-        // Jise follow karna hai uski ID
+        const loggedUserId = req.user.id;
         const targetUserId = req.params.userId;
 
-        console.log("Logged User ID:", loggedUserId);
-        console.log("Target User ID:", targetUserId);
-        console.log("Params:", req.params);
-
-        // Khud ko follow nahi kar sakta
         if (loggedUserId === targetUserId) {
             return res.status(400).json({
                 message: "You cannot follow yourself"
             });
         }
 
-        // Login user nikalo
         const loggedUser = await userModel.findById(loggedUserId);
-
-        if (!loggedUser) {
-            return res.status(404).json({
-                message: "Logged in user not found"
-            });
-        }
-
-        // Target user nikalo
         const targetUser = await userModel.findById(targetUserId);
 
-        if (!targetUser) {
+        if (!loggedUser || !targetUser) {
             return res.status(404).json({
-                message: "Target user not found"
+                message: "User not found"
             });
         }
 
-        // Already follow kar raha hai?
-        if (loggedUser.following.includes(targetUserId)) {
-            return res.status(400).json({
-                message: "Already following this user"
+        // Check if already following
+        const alreadyFollowing = loggedUser.following.some(
+            id => id.toString() === targetUserId
+        );
+
+        if (alreadyFollowing) {
+
+            // Unfollow
+            loggedUser.following = loggedUser.following.filter(
+                id => id.toString() !== targetUserId
+            );
+
+            targetUser.followers = targetUser.followers.filter(
+                id => id.toString() !== loggedUserId
+            );
+
+            await loggedUser.save();
+            await targetUser.save();
+
+            return res.status(200).json({
+                message: "User Unfollowed Successfully"
+            });
+
+        } else {
+
+            // Follow
+            loggedUser.following.push(targetUserId);
+            targetUser.followers.push(loggedUserId);
+
+            await loggedUser.save();
+            await targetUser.save();
+
+            return res.status(200).json({
+                message: "User Followed Successfully"
             });
         }
 
-        // Follow
-        loggedUser.following.push(targetUserId);
-        targetUser.followers.push(loggedUserId);
+    } catch (err) {
 
-        await loggedUser.save();
-        await targetUser.save();
+        console.log(err);
+
+        return res.status(500).json({
+            message: err.message
+        });
+    }
+}
+async function getFollowers(req, res) {
+    try {
+
+        const user = await userModel.findById(req.params.userId)
+            .populate("followers", "username profileImage");
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
 
         return res.status(200).json({
-            message: "User followed successfully"
+            followers: user.followers
         });
 
     } catch (err) {
         console.log(err);
 
         return res.status(500).json({
-            message: "Internal Server Error"
+            message: err.message
+        });
+    }
+}
+
+async function getFollowing(req, res) {
+    try {
+
+        const user = await userModel.findById(req.params.userId)
+            .populate("following", "username profileImage");
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
+
+        return res.status(200).json({
+            following: user.following
+        });
+
+    } catch (err) {
+        console.log(err);
+
+        return res.status(500).json({
+            message: err.message
         });
     }
 }
 
 module.exports = {
-    followUser
+    followUser,
+    getFollowers,
+    getFollowing
 };

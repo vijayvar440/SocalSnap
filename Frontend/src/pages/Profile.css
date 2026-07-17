@@ -91,3 +91,32 @@ body{
 }
 
 }
+.profile-stats{
+    display:flex;
+    gap:35px;
+    margin-top:20px;
+    font-size:18px;
+    font-weight:500;
+}
+
+.profile-stats span{
+    cursor:pointer;
+    transition:.3s;
+}
+
+.profile-stats span:hover{
+    color:#1877f2;
+}
+.view-btn{
+    background:#1877f2;
+    color:#fff;
+    border:none;
+    padding:10px 18px;
+    border-radius:8px;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+.view-btn:hover{
+    background:#1565c0;
+}

@@ -55,9 +55,24 @@ function Profile() {
 
           <p>{user.bio || "No Bio Available"}</p>
 
-          <div className="profile-stats">
-            <span>{posts.length} Posts</span>
-          </div>
+
+            <div className="profile-stats">
+               
+                   <span>
+                       <strong>{posts.length}</strong> Posts
+                   </span>
+               
+                   <span>
+                       <strong>{user.followers?.length || 0}</strong> Followers
+                   </span>
+               
+                   <span>
+                       <strong>{user.following?.length || 0}</strong> Following
+                   </span>
+               
+               </div>
+
+
            <button
             className="edit-btn"
             onClick={() => navigate("/edit-profile")}
@@ -74,11 +89,18 @@ function Profile() {
       <div className="posts-grid">
 
         {posts.map((post) => (
-          <div className="post-card" key={post._id}>
+          
+          <div
+              className="post-card"
+              key={post._id}
+              onClick={() => navigate(`/post/${post._id}`)}
+          >
 
             {post.mediaType === "image" && (
               <img src={post.media} alt={post.title} />
+              
             )}
+            
 
             {post.mediaType === "video" && (
               <video controls>
