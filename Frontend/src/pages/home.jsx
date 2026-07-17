@@ -263,14 +263,15 @@ function Home() {
                                 {post.description}
 
                             </p>
-                                                        {/* Media */}
+                          {/* Media */}
 
                             {post.mediaType === "image" && (
-                                <img
-                                    src={post.media}
-                                    alt={post.title}
-                                    className="post-image"
-                                />
+                               <img
+                                  src={post.media}
+                                  alt={post.title}
+                                  className="post-image"
+                                  onClick={() => navigate(`/post/${post._id}`)}
+                              />
                             )}
 
                             {post.mediaType === "video" && (

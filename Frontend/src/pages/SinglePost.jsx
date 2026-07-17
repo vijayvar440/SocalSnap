@@ -5,7 +5,7 @@ import "./SinglePost.css";
 
 function SinglePost() {
 
-    const { postId } = useParams();
+    const { id } = useParams();
 
     const [post, setPost] = useState(null);
 
@@ -13,9 +13,9 @@ function SinglePost() {
         try {
 
             const response = await axios.get(
-                `http://localhost:3000/api/post/${postId}`
-            );
-
+            `http://localhost:3000/api/Post/${id}`
+                );
+                    
             setPost(response.data.post);
 
         } catch (err) {

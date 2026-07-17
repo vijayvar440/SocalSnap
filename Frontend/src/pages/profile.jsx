@@ -7,6 +7,7 @@ function Profile() {
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
+  
 
   const fetchProfile = async () => {
     try {

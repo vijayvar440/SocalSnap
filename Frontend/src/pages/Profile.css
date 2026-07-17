@@ -85,10 +85,10 @@ body{
     grid-template-columns:1fr;
 }
 
-.profile-img{
+/* .profile-img{
     width:140px;
     height:140px;
-}
+} */
 
 }
 .profile-stats{
