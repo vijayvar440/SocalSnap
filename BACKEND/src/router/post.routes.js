@@ -69,6 +69,25 @@ router.get("/:postId",
      router.get(
     "/search/:keyword",
     userContoller.searchUser
+)
+router.get(
+    "/user/:id",
+    userContoller.getUserProfile
+)
+router.put(
+    "/:userId",
+    authMiddleware,
+    userContoller.followUser
+);
+
+router.get(
+    "/followers/:userId",
+    userContoller.getFollowers
+);
+
+router.get(
+    "/following/:userId",
+    userContoller.getFollowing
 );
 
 

@@ -72,11 +72,15 @@ function Navbar() {
         <div className="search-result">
 
             {users.map((user) => (
-
-                <div
-                    key={user._id}
-                    className="search-user"
-                >
+                     <div
+                        key={user._id}
+                        className="search-user"
+                       onClick={() => {
+                         navigate(`/user/${user._id}`);
+                         setKeyword("");
+                         setUsers([]);
+                     }}
+                    >
 
                     <img
                         src={

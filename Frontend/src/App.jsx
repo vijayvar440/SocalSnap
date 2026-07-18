@@ -10,7 +10,8 @@ import EditProfile from "./pages/EditProfile";
 import Navbar from "./components/Navbar";
 import ProtectedRoute from "./ProtectedRoute";
 import EditPost from "./pages/EditPost";
-import SinglePost from "./pages/SinglePost"
+import SinglePost from "./pages/SinglePost";
+import UserProfile from "./pages/UserProfile";
 
 
 
@@ -27,6 +28,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/post/:id" element={<SinglePost />} />
+                <Route path="/user/:id" element={<UserProfile />} />
 
                 {/* Protected Profile */}
                 <Route
