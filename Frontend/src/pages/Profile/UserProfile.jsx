@@ -102,11 +102,17 @@ function UserProfile() {
                             <strong>{posts.length}</strong> Posts
                         </span>
 
-                        <span>
+                        <span
+                            onClick={() => navigate(`/followers/${id}`)}
+                            style={{ cursor: "pointer" }}
+                        >
                             <strong>{user.followers?.length || 0}</strong> Followers
                         </span>
-
-                        <span>
+                        
+                        <span
+                            onClick={() => navigate(`/following/${id}`)}
+                            style={{ cursor: "pointer" }}
+                        >
                             <strong>{user.following?.length || 0}</strong> Following
                         </span>
 

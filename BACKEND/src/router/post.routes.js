@@ -75,7 +75,7 @@ router.get(
     userContoller.getUserProfile
 )
 router.put(
-    "/:userId",
+    "/follow/:userId",
     authMiddleware,
     userContoller.followUser
 );

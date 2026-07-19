@@ -1,17 +1,24 @@
 import { Routes, Route } from "react-router-dom";
 
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Profile from "./pages/Profile";
-import CreatePost from "./pages/CreatePost";
-import EditProfile from "./pages/EditProfile";
+import Home from "./pages/Home/Home";
+import Login from "./pages/Auth/Login";
+import Register from "./pages/Auth/Register";
+
+import Profile from "./pages/Profile/Profile";
+import UserProfile from "./pages/Profile/UserProfile";
+
+import CreatePost from "./pages/Post/CreatePost";
+import EditProfile from "./pages/Profile/EditProfile";
+import EditPost from  "./pages/Post/EditPost";
+import SinglePost from "./pages/Post/SinglePost";
 
 import Navbar from "./components/Navbar";
 import ProtectedRoute from "./ProtectedRoute";
-import EditPost from "./pages/EditPost";
-import SinglePost from "./pages/SinglePost";
-import UserProfile from "./pages/UserProfile";
+
+
+
+// import Followers from "./pages/Followers";
+// import Following from "./pages/Following";
 
 
 
@@ -29,6 +36,10 @@ function App() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/post/:id" element={<SinglePost />} />
                 <Route path="/user/:id" element={<UserProfile />} />
+
+                {/* <Route path="/followers/:id" element={<Followers />} />
+
+                <Route path="/following/:id" element={<Following />} />  */}
 
                 {/* Protected Profile */}
                 <Route
