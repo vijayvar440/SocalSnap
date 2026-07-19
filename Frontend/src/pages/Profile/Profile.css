@@ -137,3 +137,11 @@ body{
 .view-btn:hover{
     background:#1565c0;
 }
+.profile-stats span{
+    cursor:pointer;
+    transition:.3s;
+}
+
+.profile-stats span:hover{
+    color:#1877f2;
+}

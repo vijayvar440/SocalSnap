@@ -164,17 +164,17 @@ function Home() {
 
                             className="post"
 
-                            onClick={() =>
-                                navigate(`/post/${post._id}`)
-                            }
-
+                           
                         >
 
                             {/* Header */}
 
                             <div className="post-header">
 
-                                <div className="user">
+                                <div
+                                        className="user"
+                                        onClick={() => navigate(`/user/${post.uploadedBy._id}`)}
+                                    >
 
                                     {
 

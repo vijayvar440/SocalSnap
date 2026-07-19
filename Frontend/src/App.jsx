@@ -15,10 +15,7 @@ import SinglePost from "./pages/Post/SinglePost";
 import Navbar from "./components/Navbar";
 import ProtectedRoute from "./ProtectedRoute";
 
-
-
-// import Followers from "./pages/Followers";
-// import Following from "./pages/Following";
+import Followers from "./pages/Profile/Followers";
 
 
 
@@ -36,12 +33,9 @@ function App() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/post/:id" element={<SinglePost />} />
                 <Route path="/user/:id" element={<UserProfile />} />
+                <Route path="/followers/:id"element={<Followers />}/>
 
-                {/* <Route path="/followers/:id" element={<Followers />} />
-
-                <Route path="/following/:id" element={<Following />} />  */}
-
-                {/* Protected Profile */}
+                
                 <Route
                     path="/profile"
                     element={

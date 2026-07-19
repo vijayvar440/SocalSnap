@@ -24,6 +24,14 @@ function UserProfile() {
             setUser(response.data.user);
             setPosts(response.data.posts);
 
+            const loggedUserId = localStorage.getItem("userId");
+
+            setFollowing(
+                response.data.user.followers.some((item) => {
+                    return item === loggedUserId || item._id === loggedUserId;
+                })
+            );
+
         } catch (err) {
 
             console.log(err.response?.data || err.message);
@@ -31,6 +39,7 @@ function UserProfile() {
         }
 
     };
+
     const handleFollow = async () => {
     try {
 
@@ -47,6 +56,8 @@ function UserProfile() {
         alert(response.data.message);
 
         fetchUserProfile();
+
+        setFollowing(!following);
 
     } catch (err) {
 
@@ -102,6 +113,8 @@ function UserProfile() {
                             <strong>{posts.length}</strong> Posts
                         </span>
 
+
+
                         <span
                             onClick={() => navigate(`/followers/${id}`)}
                             style={{ cursor: "pointer" }}
@@ -116,14 +129,17 @@ function UserProfile() {
                             <strong>{user.following?.length || 0}</strong> Following
                         </span>
 
+
+
+
                     </div>
 
                     <button
-                       className="edit-btn"
-                       onClick={handleFollow}
-                   >
-                       Follow
-                   </button>
+                         className="edit-btn"
+                         onClick={handleFollow}
+                         >
+                         {following ? "Following" : "Follow"}
+                     </button>
 
                 </div>
 
