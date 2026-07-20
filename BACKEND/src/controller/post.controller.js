@@ -1,4 +1,5 @@
 const postModel = require("../model/post.model");
+const userModel = require("../model/user.model");
 
 async function creatPost(req, res) {
     try {
@@ -76,16 +77,30 @@ async function getPost(req, res) {
 async function getAllPost(req, res) {
     try {
 
-        
         const posts = await postModel
-                      .find()
-                      .populate("uploadedBy", "username profileImage")
-                      .sort({ createdAt: -1 });
+            .find()
+            .populate("uploadedBy", "username profileImage")
+            .sort({ createdAt: -1 });
+
+        let following = [];
+        let loggedUserId = "";
+
+        // Agar user login hai
+        if (req.user) {
+
+            const user = await userModel.findById(req.user.id);
+
+            following = user.following;
+            loggedUserId = user._id;
+
+        }
 
         return res.status(200).json({
             message: "All Posts Fetched Successfully",
             totalPosts: posts.length,
-            posts
+            posts,
+            following,
+            loggedUserId
         });
 
     } catch (err) {
@@ -97,7 +112,6 @@ async function getAllPost(req, res) {
         });
     }
 }
-
 
 
 async function likePost(req, res) {

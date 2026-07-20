@@ -1,26 +1,54 @@
+body{
+    background:#eef2f7;
+    font-family:"Segoe UI",sans-serif;
+}
+
 .followers-container{
-    max-width:700px;
-    margin:30px auto;
-    padding:20px;
+    max-width:650px;
+    margin:40px auto;
+    background:#fff;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.followers-container h2{
+    margin-bottom:20px;
+    text-align:center;
+    color:#333;
+}
+
+.back-btn{
+    border:none;
+    background:#1877f2;
+    color:#fff;
+    padding:8px 16px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:14px;
+    font-weight:600;
+    margin-bottom:20px;
+}
+
+.back-btn:hover{
+    background:#0f5fd1;
 }
 
 .follow-card{
     display:flex;
     align-items:center;
     gap:15px;
-
     padding:15px;
-    margin-top:15px;
-
-    border:1px solid #ddd;
-    border-radius:10px;
-
+    border-radius:12px;
     cursor:pointer;
     transition:.3s;
+    margin-bottom:12px;
+    border:1px solid #eee;
 }
 
 .follow-card:hover{
-    background:#f5f5f5;
+    background:#f5f7fb;
+    transform:translateY(-2px);
 }
 
 .follow-card img{
@@ -28,8 +56,17 @@
     height:60px;
     border-radius:50%;
     object-fit:cover;
+    border:2px solid #ddd;
 }
 
-.back-btn{
-    margin-bottom:20px;
+.follow-card h3{
+    margin:0;
+    color:#222;
+    font-size:18px;
+}
+
+.followers-container p{
+    text-align:center;
+    color:#777;
+    font-size:16px;
 }

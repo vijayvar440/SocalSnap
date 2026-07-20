@@ -8,6 +8,8 @@ function Home() {
     const [posts, setPosts] = useState([]);
     const [comments, setComments] = useState({});
     const [showMore, setShowMore] = useState({});
+    const [following, setFollowing] = useState([]);
+     const [loggedUserId, setLoggedUserId] = useState("");
 
     const navigate = useNavigate();
 
@@ -17,11 +19,18 @@ function Home() {
 
         try {
 
-            const response = await axios.get(
-                "http://localhost:3000/api/post/all-posts"
-            );
+           const response = await axios.get(
+    "http://localhost:3000/api/post/all-posts",
+    {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+    }
+);
 
             setPosts(response.data.posts);
+             setFollowing(response.data.following);
+             setLoggedUserId(response.data.loggedUserId);
 
         } catch (err) {
 
@@ -147,6 +156,27 @@ function Home() {
         }
 
     };
+    const handleFollow = async (userId) => {
+    try {
+
+        await axios.put(
+            `http://localhost:3000/api/post/follow/${userId}`,
+            {},
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            }
+        );
+
+        fetchPosts();
+
+    } catch (err) {
+
+        console.log(err.response?.data || err.message);
+
+    }
+};
 
     return (
 
@@ -167,86 +197,61 @@ function Home() {
                            
                         >
 
-                            {/* Header */}
+                        
+<div className="post-header">
 
-                            <div className="post-header">
+    <div
+        className="user"
+        onClick={() => navigate(`/user/${post.uploadedBy._id}`)}
+    >
 
-                                <div
-                                        className="user"
-                                        onClick={() => navigate(`/user/${post.uploadedBy._id}`)}
-                                    >
+        {post.uploadedBy?.profileImage ? (
 
-                                    {
+            <img
+                src={post.uploadedBy.profileImage}
+                alt="profile"
+                className="profile"
+            />
 
-                                        post.uploadedBy?.profileImage ?
+        ) : (
 
-                                            (
+            <div className="profile">
+                {post.uploadedBy?.username?.charAt(0).toUpperCase()}
+            </div>
 
-                                                <img
+        )}
 
-                                                    src={post.uploadedBy.profileImage}
+        <div>
 
-                                                    alt="profile"
+            <h3>{post.uploadedBy?.username}</h3>
 
-                                                    className="profile"
+            <span>
+                {new Date(post.createdAt).toLocaleDateString()}
+            </span>
 
-                                                />
+        </div>
 
-                                            )
+    </div>
 
-                                            :
+    {String(post.uploadedBy._id) !== String(loggedUserId) && (
 
-                                            (
+        <button
+            className="follow-btn"
+            onClick={(e) => {
+                e.stopPropagation();
+                handleFollow(post.uploadedBy._id);
+            }}
+        >
+            {following.some(
+                (id) => String(id) === String(post.uploadedBy._id)
+            )
+                ? "Following"
+                : "Follow"}
+        </button>
 
-                                                <div className="profile">
+    )}
 
-                                                    {
-
-                                                        post.uploadedBy?.username
-
-                                                            ?.charAt(0)
-
-                                                            .toUpperCase()
-
-                                                    }
-
-                                                </div>
-
-                                            )
-
-                                    }
-
-                                    <div>
-
-                                        <h3>
-
-                                            {
-
-                                                post.uploadedBy?.username
-
-                                            }
-
-                                        </h3>
-
-                                        <span>
-
-                                            {
-
-                                                new Date(
-
-                                                    post.createdAt
-
-                                                ).toLocaleDateString()
-
-                                            }
-
-                                        </span>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
+</div>
 
                             {/* Title */}
 

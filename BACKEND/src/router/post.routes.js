@@ -6,8 +6,7 @@ const authMiddleware = require("../middlewares/auth.Middlewares");
 const upload = require("../middlewares/upload.middlewares");
 const userContoller = require("../controller/user.controller");
 
-
-
+// ================= POST =================
 
 router.post(
     "/createPost",
@@ -16,64 +15,60 @@ router.post(
     postController.creatPost
 );
 
-
 router.get(
     "/my-posts",
     authMiddleware,
     postController.getPost
 );
+
 router.get(
     "/all-posts",
+    authMiddleware,
     postController.getAllPost
 );
 
+router.put(
+    "/update/:id",
+    authMiddleware,
+    upload.single("media"),
+    postController.updatePost
+);
+
+router.delete(
+    "/delete/:id",
+    authMiddleware,
+    postController.deletPost
+);
+
+// ================= PROFILE =================
 
 router.get(
     "/profile",
     authMiddleware,
     userContoller.getProfile
-)
+);
 
 router.put(
     "/update-profile",
     authMiddleware,
     upload.single("profileImage"),
     userContoller.updateProfile
-)
-router.put(
-    "/like/:id",
-    authMiddleware,
-    postController.likePost
-)
-router.post(
-    "/comment/:id",
-    authMiddleware,
-    postController.addComment
-)
-router.delete(
-    "/delete/:id",
-    authMiddleware,
-    postController.deletPost
-)
-router.put(
-    "/update/:id",
-    authMiddleware,
-    upload.single("media"),
-    postController.updatePost
-)
+);
 
-router.get("/:postId",
-     postController
-     .getSinglePost)
-
-     router.get(
-    "/search/:keyword",
-    userContoller.searchUser
-)
 router.get(
     "/user/:id",
     userContoller.getUserProfile
-)
+);
+
+// ================= SEARCH =================
+
+router.get(
+    "/search/:keyword",
+    userContoller.searchUser
+);
+
+// ================= FOLLOW =================
+
 router.put(
     "/follow/:userId",
     authMiddleware,
@@ -90,7 +85,25 @@ router.get(
     userContoller.getFollowing
 );
 
+// ================= LIKE & COMMENT =================
 
+router.put(
+    "/like/:id",
+    authMiddleware,
+    postController.likePost
+);
 
+router.post(
+    "/comment/:id",
+    authMiddleware,
+    postController.addComment
+);
+
+// ================= SINGLE POST (Hamesha Last Dynamic Route) =================
+
+router.get(
+    "/:postId",
+    postController.getSinglePost
+);
 
 module.exports = router;
