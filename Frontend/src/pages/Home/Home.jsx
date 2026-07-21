@@ -5,11 +5,12 @@ import "./Home.css";
 
 function Home() {
 
-    const [posts, setPosts] = useState([]);
-    const [comments, setComments] = useState({});
-    const [showMore, setShowMore] = useState({});
-    const [following, setFollowing] = useState([]);
-     const [loggedUserId, setLoggedUserId] = useState("");
+   const [posts, setPosts] = useState([]);
+const [comments, setComments] = useState({});
+const [showMore, setShowMore] = useState({});
+const [following, setFollowing] = useState([]);
+const [loggedUserId, setLoggedUserId] = useState("");
+const [loadingUser, setLoadingUser] = useState("");
 
     const navigate = useNavigate();
 
@@ -156,8 +157,10 @@ function Home() {
         }
 
     };
-    const handleFollow = async (userId) => {
+const handleFollow = async (userId) => {
     try {
+
+        setLoadingUser(userId);
 
         await axios.put(
             `http://localhost:3000/api/post/follow/${userId}`,
@@ -169,11 +172,15 @@ function Home() {
             }
         );
 
-        fetchPosts();
+        await fetchPosts();
 
     } catch (err) {
 
         console.log(err.response?.data || err.message);
+
+    } finally {
+
+        setLoadingUser("");
 
     }
 };
@@ -235,20 +242,37 @@ function Home() {
 
     {String(post.uploadedBy._id) !== String(loggedUserId) && (
 
-        <button
-            className="follow-btn"
-            onClick={(e) => {
-                e.stopPropagation();
-                handleFollow(post.uploadedBy._id);
-            }}
-        >
-            {following.some(
-                (id) => String(id) === String(post.uploadedBy._id)
-            )
-                ? "Following"
-                : "Follow"}
-        </button>
+      <button
+    className={
+        following.some(
+            (id) => String(id) === String(post.uploadedBy._id)
+        )
+            ? "follow-btn following-btn"
+            : "follow-btn"
+    }
 
+    disabled={loadingUser === post.uploadedBy._id}
+
+    onClick={(e) => {
+
+        e.stopPropagation();
+
+        handleFollow(post.uploadedBy._id);
+
+    }}
+>
+
+    {
+        loadingUser === post.uploadedBy._id
+            ? "Loading..."
+            : following.some(
+                (id) => String(id) === String(post.uploadedBy._id)
+              )
+                ? "Following"
+                : "Follow"
+    }
+
+</button>
     )}
 
 </div>

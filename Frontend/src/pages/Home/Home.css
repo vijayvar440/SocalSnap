@@ -318,3 +318,16 @@ hr{
 .follow-btn:hover{
     background:#1877f2;
 }
+.follow-btn:disabled{
+    opacity:0.7;
+    cursor:not-allowed;
+}
+
+.following-btn{
+    background:#e4e6eb;
+    color:#222;
+}
+
+.following-btn:hover{
+    background:#d8dade;
+}
