@@ -271,21 +271,34 @@ function Home() {
                           {/* Media */}
 
                             {post.mediaType === "image" && (
-                               <img
-                                  src={post.media}
-                                  alt={post.title}
-                                  className="post-image"
-                                  onClick={() => navigate(`/post/${post._id}`)}
-                              />
+                             
+                             <img
+                            src={post.media}
+                            alt={post.title}
+                            className="post-image"
+                            onDoubleClick={(e)=>{
+                                e.stopPropagation();
+                                handleLike(post._id);
+                            }}
+                        />
+                             
+                             
                             )}
 
                             {post.mediaType === "video" && (
-                                <video controls className="media">
-                                    <source
-                                        src={post.media}
-                                        type="video/mp4"
-                                    />
-                                </video>
+                                <video
+                                  controls
+                                  className="media"
+                                  onDoubleClick={(e) => {
+                                      e.stopPropagation();
+                                      handleLike(post._id);
+                                  }}
+                              >
+                                  <source
+                                      src={post.media}
+                                      type="video/mp4"
+                                  />
+                              </video>
                             )}
 
                             {post.mediaType === "audio" && (
@@ -309,6 +322,12 @@ function Home() {
                                 >
                                     ❤️ {post.likes?.length || 0}
                                 </button>
+                                <button
+                                   onClick={() => navigate(`/post/${post._id}`)}
+                               >
+                                   💬 {post.comments?.length || 0}
+                               </button>
+
 
                                 {String(post.uploadedBy?._id) ===
                                     String(userId) && (

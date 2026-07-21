@@ -264,3 +264,57 @@ hr{
         width:100%;
     }
 }
+
+
+.post-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.user{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    cursor:pointer;
+    flex:1;
+}
+
+.user div{
+    display:flex;
+    flex-direction:column;
+}
+
+.user h3{
+    margin:0;
+    font-size:22px;
+}
+
+.user span{
+    color:#666;
+    font-size:14px;
+    margin-top:4px;
+}
+
+.profile{
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+.follow-btn{
+    background:#0095f6;
+    color:white;
+    border:none;
+    padding:8px 18px;
+    border-radius:8px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.follow-btn:hover{
+    background:#1877f2;
+}
